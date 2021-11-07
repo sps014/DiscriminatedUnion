@@ -1,2 +1,11 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using DiscriminatedUnion;
+
+enum Type
+{
+    [UnionType<int>("Radius")]
+    Circle,
+
+    [UnionType<double>("Width")]
+    [UnionType<double>("Height")]
+    Rectangle
+}

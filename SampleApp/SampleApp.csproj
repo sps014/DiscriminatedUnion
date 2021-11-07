@@ -5,10 +5,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DiscriminatedUnionGenerator\DiscriminatedUnionGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\DiscriminatedUnion\DiscriminatedUnion.csproj" />
   </ItemGroup>
 
 	<!--Manual linking file as SG can't contain files-->
