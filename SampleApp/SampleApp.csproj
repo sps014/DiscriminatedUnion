@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DiscriminatedUnionGenerator\DiscriminatedUnionGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+	<!--Manual linking file as SG can't contain files-->
+	<!--ItemGroup>
+		<Compile Include="..\LibCache\LruCacheAttribute.cs" Link="LruCacheAttribute.cs" />
+	</ItemGroup-->
+	</Project>
