@@ -104,7 +104,7 @@ public class UnionGenerator : ISourceGenerator
                 if (!match.Success)
                     continue;
                 var type=match.Groups[1].Value;
-                var name=attr.ArgumentList.Arguments[0].ToString().Trim('"');
+                var name=attr.ArgumentList.Arguments[0].Expression.ToString().Trim('"');
                 fields.Add((type,name));
             }
         }
@@ -136,7 +136,7 @@ public class UnionGenerator : ISourceGenerator
             {
                 if (!atk.Name.ToString().Equals("Union"))
                     continue;
-                return atk.ArgumentList.Arguments[0].ToString().Trim('"');
+                return atk.ArgumentList.Arguments[0].Expression.ToString().Trim('"');
             }
         }
         return $"U{@enum.Identifier}";
