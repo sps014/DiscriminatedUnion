@@ -14,6 +14,7 @@ namespace DiscriminatedUnionGenerator;
 public class UnionGenerator : ISourceGenerator
 {
     private const string Namespace = "DiscriminatedUnion";
+    public const string AttributeName = "UnionProperty";
     public void Execute(GeneratorExecutionContext context)
     {
         if (context.SyntaxReceiver is not UnionReciever union)
@@ -99,7 +100,7 @@ public class UnionGenerator : ISourceGenerator
         {
             foreach(var attr in a.Attributes)
             {
-                var match = Regex.Match(attr.Name.ToString(), @"UnionType<([0-9a-zA-Z\[\]\(\)\s_\.]*)>");
+                var match = Regex.Match(attr.Name.ToString(), $@"{AttributeName}<([0-9a-zA-Z\[\]\(\)\s_\.]*)>");
                 if (!match.Success)
                     continue;
                 var type=match.Groups[1].Value;

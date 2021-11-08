@@ -15,7 +15,8 @@ namespace DiscriminatedUnionGenerator
         {
             if(syntaxNode is AttributeSyntax attribute)
             {
-                if (attribute.Parent is AttributeListSyntax attributes)
+                if ( attribute.Name.ToString().Contains(UnionGenerator.AttributeName) 
+                    && attribute.Parent is AttributeListSyntax attributes)
                 {
                    if(attributes.Parent is EnumMemberDeclarationSyntax members)
                     {

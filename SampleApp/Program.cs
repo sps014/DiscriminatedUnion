@@ -1,5 +1,5 @@
 ﻿using DiscriminatedUnion;
-using Test;
+using CodeAnalysis;
 
 UType u=new UType.Circle(6);
 
@@ -7,7 +7,7 @@ if( u is UType.Circle c)
     Console.WriteLine(c.Radius);
 
 else if(u is UType.Rectangle r)
-    Console.WriteLine(r.Width+" "+r.Height);
+    Console.WriteLine(r.Height);
 
 u = new UType.Rectangle(12, 10);
 //or 
@@ -21,33 +21,44 @@ switch(u.Is)
         break;
 }
 
-Enumz sym = new Enumz.Circle(10);
-sym = new Enumz.Special(sym);
-Console.WriteLine(sym.AsSpecial().Left.Is);
-enum Type
-{
-    [UnionType<int>("Radius")]
-    Circle,
+ExpressionSyntax syntax = new ExpressionSyntax.NumberExpressionSyntax(new SyntaxToken());
 
-    [UnionType<double>("Width")]
-    [UnionType<double>("Height")]
-    Rectangle
+switch(syntax.Is)
+{
+    case ExpressionSyntaxType.NumberExpressionSyntax:
+        Console.WriteLine("Number Expression");
+        break;
+    case ExpressionSyntaxType.BinaryExpressionSyntax:
+        Console.WriteLine("Binary Expression");
+        break;
 }
 
-namespace Test
+namespace CodeAnalysis
 {
-    [Union("Enumz")]
-    public enum Type
+
+    [Union("ExpressionSyntax")]
+    enum ExpressionSyntaxType
     {
-        [UnionType<int>("Radius")]
-        Circle,
+        [UnionProperty<SyntaxToken>("Number")]
+        NumberExpressionSyntax,
 
-        [UnionType<double>("Width")]
-        [UnionType<double>("Height")]
-        Rectangle,
-
-        [UnionType<Enumz>("Left")]
-        Special
+        [UnionProperty<ExpressionSyntax>("Left")]
+        [UnionProperty<SyntaxToken>("Operator")]
+        [UnionProperty<ExpressionSyntax>("Right")]
+        BinaryExpressionSyntax
+    }
+    class SyntaxToken
+    {
 
     }
+}
+
+enum Type
+{
+    [UnionProperty<int>("Radius")]
+    Circle,
+
+    [UnionProperty<double>("Width")]
+    [UnionProperty<double>("Height")]
+    Rectangle
 }

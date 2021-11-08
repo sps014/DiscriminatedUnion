@@ -5,9 +5,9 @@ using System.Text;
 namespace DiscriminatedUnion;
 
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
-public class UnionTypeAttribute<T> : Attribute
+public class UnionPropertyAttribute<T> : Attribute
 {
-    public UnionTypeAttribute(string name)
+    public UnionPropertyAttribute(string name)
     {
 
     }
