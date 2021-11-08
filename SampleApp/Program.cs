@@ -7,6 +7,8 @@ if( u is UType.Circle c)
 
 else if(u is UType.Rectangle r)
     Console.WriteLine(r.Width*r.Height);
+
+u = new UType.Rectangle(12, 10);
 //or 
 switch(u.Is)
 {
