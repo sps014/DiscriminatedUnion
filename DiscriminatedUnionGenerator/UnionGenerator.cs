@@ -65,11 +65,26 @@ public class UnionGenerator : ISourceGenerator
         {
             var name=GetMemberName(member);
             var fields = GetMemberFields(member);
-            var strMerged=string.Join(",",fields);
             writer.WriteLine($"public record {name}({fields}):{DuName};");
+            
         }
+        WriteEnumIs(@enum,writer);
+        WriteAsMethods(@enum,writer);
     }
 
+    private void WriteAsMethods(EnumDeclarationSyntax @enum, IndentedTextWriter writer)
+    {
+        foreach (var member in @enum.Members)
+        {
+            var name = GetMemberName(member);
+            writer.WriteLine($"public {name} As{name}()=>({name})this;");
+        }
+    }
+    private void WriteEnumIs(EnumDeclarationSyntax @enum,IndentedTextWriter writer)
+    {
+        var ename = @enum.Identifier.ValueText;
+        writer.WriteLine($"public {ename} Is=>Enum.Parse<{ename}>(GetType().Name);");
+    }
     private string GetMemberFields(EnumMemberDeclarationSyntax member)
     {
         List<(string Type, string Name)> fields = new();
@@ -90,7 +105,6 @@ public class UnionGenerator : ISourceGenerator
         var strMerged = string.Join(",", merged);
         return strMerged;
     }
-
     private string GetMemberName(EnumMemberDeclarationSyntax mem)
     {
         return mem.Identifier.ValueText;
