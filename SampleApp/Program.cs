@@ -1,6 +1,17 @@
 ﻿using DiscriminatedUnion;
-var u=new UType.Circle(6);
-u.Radius = 32.0f;
+
+UType u=new UType.Circle(6);
+
+if( u is UType.Circle c)
+{
+    Console.WriteLine(c.Radius);
+}
+else if(u is UType.Rectangle r)
+{
+    Console.WriteLine(r.Width*r.Height);
+}
+
+
 enum Type
 {
     [UnionType<int>("Radius")]
