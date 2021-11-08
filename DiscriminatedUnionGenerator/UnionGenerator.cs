@@ -65,7 +65,13 @@ public class UnionGenerator : ISourceGenerator
         {
             var name=GetMemberName(member);
             var fields = GetMemberFields(member);
-            writer.WriteLine($"public record {name}({fields}):{DuName};");
+            var enumname = @enum.Identifier.ValueText;
+            writer.WriteLine($"public record {name}({fields}):{DuName}");
+            writer.WriteLine("{");
+            writer.Indent++;
+            writer.WriteLine($"public override {enumname} Is=>{enumname}.{name};");
+            writer.Indent--;
+            writer.WriteLine("}");
             
         }
         WriteEnumIs(@enum,writer);
@@ -83,7 +89,7 @@ public class UnionGenerator : ISourceGenerator
     private void WriteEnumIs(EnumDeclarationSyntax @enum,IndentedTextWriter writer)
     {
         var ename = @enum.Identifier.ValueText;
-        writer.WriteLine($"public {ename} Is=>Enum.Parse<{ename}>(GetType().Name);");
+        writer.WriteLine($"public virtual {ename} Is{{get;}}");
     }
     private string GetMemberFields(EnumMemberDeclarationSyntax member)
     {
