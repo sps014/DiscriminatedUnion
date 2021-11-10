@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	<IsRoslynComponent>true</IsRoslynComponent>
-	<LangVersion>10</LangVersion>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,4 +18,9 @@
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="true" />
 	</ItemGroup>
 
+    	<!--Manual linking file as SG can't contain files-->
+	<ItemGroup>
+		<Compile Include="..\DiscriminatedUnion\UnionAttribute.cs" Link="UnionAttribute.cs" />
+		<Compile Include="..\DiscriminatedUnion\UnionPropertyAttribute.cs" Link="UnionPropertyAttribute.cs" />
+	</ItemGroup>
 </Project>

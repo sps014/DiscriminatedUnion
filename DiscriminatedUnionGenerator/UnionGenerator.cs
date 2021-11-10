@@ -26,7 +26,7 @@ public class UnionGenerator : ISourceGenerator
         foreach (var enumDeclaration in union.EnumDeclarations)
             SaveEnumContext(enumDeclaration, writer);
 
-        //Console.WriteLine(ss.ToString());
+        Console.WriteLine(ss.ToString());
         context.AddSource("generated_unions.cs", SourceText.From(ss.ToString(), System.Text.Encoding.UTF8));
     }
     private void SaveEnumContext(EnumDeclarationSyntax @enum, IndentedTextWriter writer)

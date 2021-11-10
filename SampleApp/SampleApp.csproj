@@ -13,8 +13,4 @@
     <ProjectReference Include="..\DiscriminatedUnion\DiscriminatedUnion.csproj" />
   </ItemGroup>
 
-	<!--Manual linking file as SG can't contain files-->
-	<!--ItemGroup>
-		<Compile Include="..\LibCache\LruCacheAttribute.cs" Link="LruCacheAttribute.cs" />
-	</ItemGroup-->
 	</Project>
