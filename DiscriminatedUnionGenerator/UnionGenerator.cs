@@ -26,7 +26,7 @@ public class UnionGenerator : ISourceGenerator
         foreach (var enumDeclaration in union.EnumDeclarations)
             SaveEnumContext(enumDeclaration, writer);
 
-        Console.WriteLine(ss.ToString());
+        //Console.WriteLine(ss.ToString());
         context.AddSource("generated_unions.cs", SourceText.From(ss.ToString(), System.Text.Encoding.UTF8));
     }
     private void SaveEnumContext(EnumDeclarationSyntax @enum, IndentedTextWriter writer)
@@ -100,10 +100,12 @@ public class UnionGenerator : ISourceGenerator
         {
             foreach(var attr in a.Attributes)
             {
-                var match = Regex.Match(attr.Name.ToString(), $@"{AttributeName}<([0-9a-zA-Z\[\]\(\)\s_\.]*)>");
-                if (!match.Success)
+                var typeArgs = attr.Name.DescendantNodes().OfType<TypeArgumentListSyntax>();
+                if (!typeArgs.Any())
                     continue;
-                var type=match.Groups[1].Value;
+
+                var type=typeArgs.First().Arguments[0].GetText().ToString();
+
                 var name=attr.ArgumentList.Arguments[0].Expression.ToString().Trim('"');
                 fields.Add((type,name));
             }

@@ -21,7 +21,7 @@ switch(u.Is)
         break;
 }
 
-ExpressionSyntax syntax = new ExpressionSyntax.NumberExpressionSyntax(new SyntaxToken());
+ExpressionSyntax syntax = new ExpressionSyntax.NumberExpressionSyntax(new SyntaxToken("55"));
 
 switch(syntax.Is)
 {
@@ -47,10 +47,7 @@ namespace CodeAnalysis
         [UnionProperty<ExpressionSyntax>("Right")]
         BinaryExpressionSyntax
     }
-    class SyntaxToken
-    {
-
-    }
+    sealed record SyntaxToken(string Value);
 }
 
 enum Type
@@ -60,5 +57,9 @@ enum Type
 
     [UnionProperty<double>("Width")]
     [UnionProperty<double>("Height")]
-    Rectangle
+    Rectangle,
+    [UnionProperty<List<int>>("Prop")]
+    [UnionProperty<(int,double)>("ok")]
+    Other
+
 }
