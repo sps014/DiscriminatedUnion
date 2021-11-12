@@ -1,5 +1,6 @@
 ﻿using DiscriminatedUnion;
 using CodeAnalysis;
+using SampleApp;
 
 UType u=new UType.Circle(6);
 
@@ -36,18 +37,6 @@ switch(syntax.Is)
 namespace CodeAnalysis
 {
 
-    [Union("ExpressionSyntax")]
-    enum ExpressionSyntaxType
-    {
-        [UnionProperty<SyntaxToken>("Number")]
-        NumberExpressionSyntax,
-
-        [UnionProperty<ExpressionSyntax>("Left")]
-        [UnionProperty<SyntaxToken>("Operator")]
-        [UnionProperty<ExpressionSyntax>("Right")]
-        BinaryExpressionSyntax
-    }
-    sealed record SyntaxToken(string Value);
 }
 
  enum Type

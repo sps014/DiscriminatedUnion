@@ -171,6 +171,10 @@ public class UnionGenerator : ISourceGenerator
     {
         if(@enum.Parent is NamespaceDeclarationSyntax @namespace)
             return @namespace.Name.ToString();
+
+        if(@enum.Parent is FileScopedNamespaceDeclarationSyntax @file)
+            return @file.Name.ToString();
+
         return Namespace;
     }
 
