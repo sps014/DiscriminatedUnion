@@ -36,7 +36,7 @@ switch(syntax.Is)
 namespace CodeAnalysis
 {
 
-    [Union(name:"ExpressionSyntax",specialModifiers:UnionAttribute.Modifier.SealedPartial,type:UnionAttribute.ContainerType.Class)]
+    [Union("ExpressionSyntax")]
     enum ExpressionSyntaxType
     {
         [UnionProperty<SyntaxToken>("Number")]

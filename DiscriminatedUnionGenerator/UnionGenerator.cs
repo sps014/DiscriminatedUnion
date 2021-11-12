@@ -104,6 +104,9 @@ public class UnionGenerator : ISourceGenerator
             {
                 if (!atk.Name.ToString().Equals("Union"))
                     continue;
+                if (atk.ArgumentList.Arguments.Count < 3)
+                    break;
+
                 if (atk.ArgumentList.Arguments[2].Expression.ToString().Trim('"').Contains("Class"))
                     return "";
             }
@@ -112,12 +115,16 @@ public class UnionGenerator : ISourceGenerator
     }
     private string GetSpecialModifiers(EnumDeclarationSyntax syntax)
     {
+     
         foreach (var att in syntax.AttributeLists)
         {
             foreach (var atk in att.Attributes)
             {
                 if (!atk.Name.ToString().Equals("Union"))
                     continue;
+                if (atk.ArgumentList.Arguments.Count < 2)
+                    break;
+
                 var word = atk.ArgumentList.Arguments[1].Expression.ToString().Trim('"');
                 if(word.Contains(DiscriminatedUnion.UnionAttribute.Modifier.SealedPartial.ToString()))
                     return "sealed partial";
