@@ -4,6 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
 	<IsRoslynComponent>true</IsRoslynComponent>
 	<LangVersion>preview</LangVersion>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<PackageId>DiscriminatedUnion</PackageId>
+	<Company>Shivendra P. Singh</Company>
+	<Product>DiscriminatedUnion</Product>
+	<Description>High Performance Compile time discriminated Union for C#.</Description>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
