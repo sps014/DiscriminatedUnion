@@ -51,7 +51,8 @@ public class UnionGenerator : ISourceGenerator
     {
         var DuName=GetEnumName(@enum);
         var modifier=GetModifier(@enum);
-        writer.WriteLine($"{modifier} interface {DuName}");
+        var partialModifier=GetSpecialModifiers(@enum).Contains("partial")?"partial":"";
+        writer.WriteLine($"{modifier} {partialModifier} interface {DuName}");
         writer.WriteLine("{");
         writer.Indent++;
 
@@ -62,12 +63,14 @@ public class UnionGenerator : ISourceGenerator
     }
     private void WriteEnumMembers(EnumDeclarationSyntax @enum,IndentedTextWriter writer,string DuName)
     {
-        foreach(var member in @enum.Members)
+        var containerType = GetContainerType(@enum);
+        var specialModifier=GetSpecialModifiers(@enum);
+        foreach (var member in @enum.Members)
         {
             var name=GetMemberName(member);
             var fields = GetMemberFields(member);
             var enumname = @enum.Identifier.ValueText;
-            writer.WriteLine($"public record struct {name}({fields}):{DuName}");
+            writer.WriteLine($"public {specialModifier} record {containerType} {name}({fields}):{DuName}");
             writer.WriteLine("{");
             writer.Indent++;
             writer.WriteLine($"public {enumname} Is=>{enumname}.{name};");
@@ -91,6 +94,40 @@ public class UnionGenerator : ISourceGenerator
     {
         var ename = @enum.Identifier.ValueText;
         writer.WriteLine($"{ename} Is{{get;}}");
+    }
+
+    private string GetContainerType(EnumDeclarationSyntax syntax)
+    {
+        foreach (var att in syntax.AttributeLists)
+        {
+            foreach (var atk in att.Attributes)
+            {
+                if (!atk.Name.ToString().Equals("Union"))
+                    continue;
+                if (atk.ArgumentList.Arguments[2].Expression.ToString().Trim('"').Contains("Class"))
+                    return "";
+            }
+        }
+        return "struct";
+    }
+    private string GetSpecialModifiers(EnumDeclarationSyntax syntax)
+    {
+        foreach (var att in syntax.AttributeLists)
+        {
+            foreach (var atk in att.Attributes)
+            {
+                if (!atk.Name.ToString().Equals("Union"))
+                    continue;
+                var word = atk.ArgumentList.Arguments[1].Expression.ToString().Trim('"');
+                if(word.Contains(DiscriminatedUnion.UnionAttribute.Modifier.SealedPartial.ToString()))
+                    return "sealed partial";
+               else if (word.Contains(DiscriminatedUnion.UnionAttribute.Modifier.Sealed.ToString()))
+                    return "sealed";
+                else if (word.Contains(DiscriminatedUnion.UnionAttribute.Modifier.Partial.ToString()))
+                    return "partial";
+            }
+        }
+        return "";
     }
     private string GetMemberFields(EnumMemberDeclarationSyntax member)
     {

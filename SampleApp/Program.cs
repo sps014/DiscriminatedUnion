@@ -36,7 +36,7 @@ switch(syntax.Is)
 namespace CodeAnalysis
 {
 
-    [Union(name:"ExpressionSyntax")]
+    [Union(name:"ExpressionSyntax",specialModifiers:UnionAttribute.Modifier.SealedPartial,type:UnionAttribute.ContainerType.Class)]
     enum ExpressionSyntaxType
     {
         [UnionProperty<SyntaxToken>("Number")]
@@ -50,16 +50,12 @@ namespace CodeAnalysis
     sealed record SyntaxToken(string Value);
 }
 
-enum Type
+ enum Type
 {
     [UnionProperty<int>("Radius")]
     Circle,
 
     [UnionProperty<double>("Width")]
     [UnionProperty<double>("Height")]
-    Rectangle,
-    [UnionProperty<List<int>>("Prop")]
-    [UnionProperty<(int,double)>("ok")]
-    Other
-
+    Rectangle
 }
