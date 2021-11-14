@@ -1,6 +1,6 @@
 ﻿using DiscriminatedUnion;
-using CodeAnalysis;
-using SampleApp;
+using Namespacer;
+using TestName;
 
 UType u=new UType.Circle(6);
 
@@ -22,7 +22,7 @@ switch(u.Is)
         break;
 }
 
-ExpressionSyntax syntax = new ExpressionSyntax.NumberExpressionSyntax(new SyntaxToken("55"));
+ExpressionSyntax syntax = new ExpressionSyntax.NumberExpressionSyntax(new SyntaxToken(Value: "jkkjkj"));
 
 switch(syntax.Is)
 {
@@ -34,12 +34,7 @@ switch(syntax.Is)
         break;
 }
 
-namespace CodeAnalysis
-{
-
-}
-
- enum Type
+enum Type
 {
     [UnionProperty<int>("Radius")]
     Circle,

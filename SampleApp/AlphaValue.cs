@@ -1,10 +1,11 @@
 ﻿
 using DiscriminatedUnion;
+using Namespacer;
 
-namespace SampleApp;
+namespace TestName;
 
 [Union("ExpressionSyntax")]
-enum ExpressionSyntaxType
+public enum ExpressionSyntaxType
 {
     [UnionProperty<SyntaxToken>("Number")]
     NumberExpressionSyntax,
@@ -14,4 +15,3 @@ enum ExpressionSyntaxType
     [UnionProperty<ExpressionSyntax>("Right")]
     BinaryExpressionSyntax
 }
-public sealed record SyntaxToken(string Value);

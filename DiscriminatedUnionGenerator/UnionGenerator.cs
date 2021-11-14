@@ -15,27 +15,29 @@ public class UnionGenerator : ISourceGenerator
 {
     private const string Namespace = "DiscriminatedUnion";
     public const string AttributeName = "UnionProperty";
+    private int nameCount = 0;
     public void Execute(GeneratorExecutionContext context)
     {
         if (context.SyntaxReceiver is not UnionReciever union)
             return;
 
+        nameCount = 0;
+        foreach (var enumDeclaration in union.EnumDeclarations)
+            SaveEnumContext(enumDeclaration,ref context);
+
+    }
+    private void SaveEnumContext(EnumDeclarationSyntax @enum, ref GeneratorExecutionContext context)
+    {
+        WriteNameSpace(@enum, ref context);
+    }
+
+    private void WriteNameSpace(EnumDeclarationSyntax @enum, ref GeneratorExecutionContext context)
+    {
         using StringWriter ss = new();
         using IndentedTextWriter writer = new(ss);
 
-        foreach (var enumDeclaration in union.EnumDeclarations)
-            SaveEnumContext(enumDeclaration, writer);
-
-        Console.WriteLine(ss.ToString());
-        context.AddSource("generated_unions.cs", SourceText.From(ss.ToString(), System.Text.Encoding.UTF8));
-    }
-    private void SaveEnumContext(EnumDeclarationSyntax @enum, IndentedTextWriter writer)
-    {
-        WriteNameSpace(@enum, writer);
-    }
-
-    private void WriteNameSpace(EnumDeclarationSyntax @enum, IndentedTextWriter writer)
-    {
+        var usings = GetUsings(@enum);
+        writer.WriteLine(usings);
         var nameSpace = GetEnumNameSpace(@enum);
         writer.WriteLine($"namespace {nameSpace}");
         writer.WriteLine("{");
@@ -46,11 +48,16 @@ public class UnionGenerator : ISourceGenerator
         writer.Indent--;
         writer.WriteLine("}");
         writer.WriteLine();
+
+        var enumName=GetEnumName(@enum);
+        Console.WriteLine(ss.ToString());
+        context.AddSource($"{enumName}_{nameCount++}.cs", SourceText.From(ss.ToString(), System.Text.Encoding.UTF8));
     }
     private void WriteEnumClass(EnumDeclarationSyntax @enum, IndentedTextWriter writer)
     {
         var DuName=GetEnumName(@enum);
         var modifier=GetModifier(@enum);
+
         var partialModifier=GetSpecialModifiers(@enum).Contains("partial")?"partial":"";
         writer.WriteLine($"{modifier} {partialModifier} interface {DuName}");
         writer.WriteLine("{");
@@ -166,7 +173,11 @@ public class UnionGenerator : ISourceGenerator
     {
         return @enum.Modifiers.ToString();
     }
-
+    private string GetUsings(EnumDeclarationSyntax @enum)
+    {
+        var usings = @enum.SyntaxTree.GetRoot().DescendantNodes().OfType<UsingDirectiveSyntax>();
+        return string.Join("\r\n",usings.Select(u=>u.ToFullString()));
+    }
     private string GetEnumNameSpace(EnumDeclarationSyntax @enum)
     {
         if(@enum.Parent is NamespaceDeclarationSyntax @namespace)
