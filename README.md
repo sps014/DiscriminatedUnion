@@ -21,7 +21,7 @@ public enum ExpressionSyntaxType
     BinaryExpressionSyntax
 }
 ```
-equivalent Code as compared to 
+equivalent Code as compared to F# or Rust
 ```rs
 enum ExpressionSyntax
 {
