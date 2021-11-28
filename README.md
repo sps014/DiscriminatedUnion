@@ -1,5 +1,6 @@
 # DiscriminatedUnion
- High performance Compile Time Discriminated Unions for C# , Rust and F# inspired
+ High performance Compile Time Discriminated Unions for C# , Rust and F# inspired.<br>
+ This libary require Language Version set to `preview`.
  
 [Nuget](https://www.nuget.org/packages/TinyUnions) reference
 ```
